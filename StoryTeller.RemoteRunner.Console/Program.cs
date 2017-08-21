@@ -14,7 +14,7 @@ namespace StoryTeller.RemoteRunner.Host
         }
 
         public static IWebHost BuildWebHost(string[] args) => WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+                .UseStartup<RemoteRunnerStartup>()
                 .UseKestrel(options =>
                 {
                     options.Listen(IPAddress.Loopback, 5000);
