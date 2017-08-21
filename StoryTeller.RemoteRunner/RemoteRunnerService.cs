@@ -11,7 +11,6 @@ namespace StoryTeller.RemoteRunner
     public class RemoteRunnerService : IMicroService
     {
         private IWebHost _webHost;
-        private CancellationTokenSource _cancellationTokenSource;
         
         public void Start()
         {
@@ -30,7 +29,6 @@ namespace StoryTeller.RemoteRunner
         {
             _webHost.StopAsync().Wait();
             _webHost.Dispose();
-
         }
     }
 }
