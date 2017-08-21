@@ -15,32 +15,16 @@ namespace StoryTeller.RemoteRunner
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            //var serverAddressesFeature = app.ServerFeatures.Get<IServerAddressesFeature>();
-
             app.UseMvcWithDefaultRoute();
 
             app.Run(async (context) =>
             {
-                //context.Response.ContentType = "text/html";
-                //await context.Response
-                //    .WriteAsync("<p>Hosted by Kestrel</p>");
-
-                //if (serverAddressesFeature != null)
-                //{
-                //    await context.Response
-                //        .WriteAsync("<p>Listening on the following addresses: " +
-                //                    string.Join(", ", serverAddressesFeature.Addresses) +
-                //                    "</p>");
-                //}
-
-                //await context.Response.WriteAsync($"<p>Request URL: {context.Request.GetDisplayUrl()}<p>");
             });
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvcCore();
-            services.AddSingleton<IHostedService, RemoteRunnerService>();
         }
 
         #endregion

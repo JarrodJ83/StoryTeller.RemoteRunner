@@ -4,18 +4,17 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using PeterKottas.DotNetCore.WindowsService.Interfaces;
 
 namespace StoryTeller.RemoteRunner
 {
-    public class RemoteRunnerService : IHostedService
+    public class RemoteRunnerService : IMicroService
     {
         private IWebHost _webHost;
         private CancellationTokenSource _cancellationTokenSource;
-
-        public Task StartAsync(CancellationToken cancellationToken)
+        
+        public void Start()
         {
-            _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-
             _webHost = WebHost.CreateDefaultBuilder()
                 .UseStartup<RemoteRunnerStartup>()
                 .UseKestrel(options =>
@@ -24,15 +23,14 @@ namespace StoryTeller.RemoteRunner
                 })
                 .Build();
 
-            return _webHost.StartAsync(_cancellationTokenSource.Token);
+            _webHost.Start();
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public void Stop()
         {
-            _webHost.StopAsync(_cancellationTokenSource.Token).Wait(30000);
-            _cancellationTokenSource.Cancel();
+            _webHost.StopAsync().Wait();
             _webHost.Dispose();
-            return Task.CompletedTask;
+
         }
     }
 }

@@ -11,4 +11,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="PeterKottas.DotNetCore.WindowsService">
+      <HintPath>..\..\..\Users\jarrod.johnson\.nuget\packages\peterkottas.dotnetcore.windowsservice\1.0.20\lib\netcoreapp1.1\PeterKottas.DotNetCore.WindowsService.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
