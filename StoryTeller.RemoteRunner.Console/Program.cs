@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StoryTeller.RemoteRunner
+namespace StoryTeller.RemoteRunner.Host
 {
     class Program
     {
