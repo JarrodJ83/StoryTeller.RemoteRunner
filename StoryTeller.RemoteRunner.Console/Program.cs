@@ -1,12 +1,24 @@
 ﻿using System;
+using System.Net;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using StoryTeller.RemoteRunner;
 
 namespace StoryTeller.RemoteRunner.Host
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            BuildWebHost(args).Run();
         }
+
+        public static IWebHost BuildWebHost(string[] args) => WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseKestrel(options =>
+                {
+                    options.Listen(IPAddress.Loopback, 5000);
+                })
+                .Build();
     }
 }
