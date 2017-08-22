@@ -21,7 +21,7 @@ namespace StoryTeller.RemoteRunner.Controllers
             using (var runner = new StorytellerRunner(_system, run.SpecsDirectory))
             {
                 runner.WriteResultsDocument(run.ResultsFileName);
-                BatchRunResponse results = runner.RunAll(TimeSpan.MaxValue);
+                BatchRunResponse results = runner.RunAll(TimeSpan.FromSeconds(run.TimeOutSeconds));
                 return results;
             }
         }
