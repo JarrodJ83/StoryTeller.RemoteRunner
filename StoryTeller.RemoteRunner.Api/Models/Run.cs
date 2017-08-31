@@ -1,9 +1,8 @@
 ﻿namespace StoryTeller.RemoteRunner.Api.Models
 {
-    public class Run
+    public class BatRun
     {
-        public int TimeOutSeconds { get; set; } = int.MaxValue;
-        public string SpecsDirectory { get; set; }
-        public string ResultsFileName { get; set; }
+        public string RunExe { get; set; }
+        public string Args { get; set; }
     }
 }

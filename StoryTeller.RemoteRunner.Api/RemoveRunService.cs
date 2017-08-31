@@ -2,7 +2,7 @@
 using System.Web.Http;
 using Microsoft.Owin.Hosting;
 using Owin;
-using StoryTeller.RemoteRunner.Controllers;
+using StoryTeller.RemoteRunner.Api.Controllers;
 
 namespace StoryTeller.RemoteRunner.Api
 {
@@ -31,10 +31,7 @@ namespace StoryTeller.RemoteRunner.Api
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            var test = new RunsController();
-
-
+            
             config.MapHttpAttributeRoutes();
 
             appBuilder.UseWebApi(config);
