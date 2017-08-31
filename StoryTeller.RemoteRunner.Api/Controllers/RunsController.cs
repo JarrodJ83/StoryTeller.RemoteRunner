@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Configuration;
 using EngineController = ST.Client.EngineController;
@@ -42,7 +43,7 @@ namespace StoryTeller.RemoteRunner.Api.Controllers
         {
             try
             {
-                var batchRunRequest = runInput.GetBatchRunRequest();
+                BatchRunRequest batchRunRequest = runInput.GetBatchRunRequest();
 
                 if (!batchRunRequest.Specifications.Any())
                 {
@@ -56,7 +57,7 @@ namespace StoryTeller.RemoteRunner.Api.Controllers
             }
 
             ST.Client.EngineController controller = runInput.BuildEngine();
-            var task = controller.Start()
+            Task<bool> task = controller.Start()
                 .ContinueWith(t =>
                 {
                     if (t.Exception != null)
@@ -66,14 +67,21 @@ namespace StoryTeller.RemoteRunner.Api.Controllers
                     return executeAgainstTheSystem(runInput, systemRecycled, controller);
                 });
 
-            var result = await task;
+            bool passed = await task;
             controller.SafeDispose();
 
             Run latestRun = await _portalClient.GetLatestRun();
-            latestRun.HtmlResults = File.ReadAllText(runInput.ResultsPathFlag);
-            _portalClient.UpdateRunAsync(latestRun).Wait();
 
-            return result;
+            var runResult = new RunResult
+            {
+                RunId = latestRun.Id,
+                HtmlResults = File.ReadAllText(runInput.ResultsPathFlag),
+                Passed = passed
+            };
+
+            await _portalClient.CompleteRunAsync(runResult);
+
+            return passed;
         }
 
         private bool executeAgainstTheSystem(RunInput input, SystemRecycled systemRecycled, EngineController controller)
